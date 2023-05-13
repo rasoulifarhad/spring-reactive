@@ -39,12 +39,16 @@ public class DataImportConfiguration {
                         .fromIterable(getShows())
                         .flatMap(s -> mongo.save(s))
                 )
+                
+                // .log()
+                // .subscribe(
+                //     null, 
+                //     null, 
+                //     () -> log.info("done initialization...")
+                // );
                 .log()
-                .subscribe(
-                    null, 
-                    null, 
-                    () -> log.info("done initialization...")
-                );
+                .thenMany(mongo.findAll(Show.class))
+                .subscribe(s -> log.info("saved: {}", s));
         };
     }
 
@@ -60,21 +64,21 @@ public class DataImportConfiguration {
         return properties.getObject();
     }  
     
-    /**
-     * curl -s -XGET http://localhost:8080/shows | jq '.'
-     * curl -s -XGET http://localhost:8080/shows/{id} | jq '.'
-     */
-    @Bean
-    @Order(400)
-    public CommandLineRunner testInitData(ReactiveMongoOperations mongo) {
-        return  args -> {
-            log.info("Customers found with findAll():");
-            mongo
-                .findAll(Show.class)
-                .subscribe( s -> log.info("{}", s) )
-                ;
-        };
-    }
+    // /**
+    //  * curl -s -XGET http://localhost:8080/shows | jq '.'
+    //  * curl -s -XGET http://localhost:8080/shows/{id} | jq '.'
+    //  */
+    // @Bean
+    // @Order(400)
+    // public CommandLineRunner testInitData(ReactiveMongoOperations mongo) {
+    //     return  args -> {
+    //         log.info("Customers found with findAll():");
+    //         mongo
+    //             .findAll(Show.class)
+    //             .subscribe( s -> log.info("{}", s) )
+    //             ;
+    //     };
+    // }
 
     // @Bean
     // public CommandLineRunner anotherInitData(ReactiveShowRepository shows) {
