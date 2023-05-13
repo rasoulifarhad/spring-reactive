@@ -76,10 +76,19 @@ public class ReactiveProductRepositoryIntegrationTest {
 
     @Test
     public void findByNameWithStringQueryTest() {
-        Flux<Product> flux = repository.findByName("Mug-01");
+        Flux<Product> flux = repository.findByName("T Shirt-01");
 
         StepVerifier.create(flux)
-                .expectNextCount(1)
+                .expectNextCount(2)
+                .expectComplete()
+                .verify();
+    }
+    @Test
+    public void findByNameWithMonoQueryTest() {
+        Flux<Product> flux = repository.findByName(Mono.just("T Shirt-01"));
+
+        StepVerifier.create(flux)
+                .expectNextCount(2)
                 .expectComplete()
                 .verify();
     }
