@@ -45,7 +45,7 @@ public class DataImportConfiguration {
                 //     null, 
                 //     () -> log.info("done initialization...")
                 // );
-                .log()
+                // .log()
                 .thenMany(mongo.findAll(Show.class))
                 .subscribe(s -> log.info("saved: {}", s));
         };
@@ -73,7 +73,7 @@ public class DataImportConfiguration {
                     Flux
                         .fromIterable(getProducts())
                         .flatMap(p -> mongo.save(p)))
-                .log()
+                // .log()
                 .thenMany(mongo.findAll(Product.class))
                 .subscribe(p -> log.info("Saved: {}", p) );
         };
