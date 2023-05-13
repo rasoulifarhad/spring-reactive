@@ -9,6 +9,7 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
+import com.farhad.example.webfluxcrud.service.ProductHandler;
 import com.farhad.example.webfluxcrud.service.ShowEventHandler;
 import com.farhad.example.webfluxcrud.service.ShowHandler;
 
@@ -22,5 +23,14 @@ public class WebConfig implements WebFluxConfigurer {
                         .route(RequestPredicates.GET("/shows/{id}/events"), showEventHandler::events)
                         .andRoute(RequestPredicates.GET("/shows/{id}"), showHandler::byId)
                         .andRoute(RequestPredicates.GET("/shows"), showHandler::all);
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> routeProduct(ProductHandler productHandler) {
+
+        return RouterFunctions
+                        .route(RequestPredicates.GET("/products/{id}"), productHandler::byId)
+                        .andRoute(RequestPredicates.GET("/products"), productHandler::all)
+                        ;
     }
 }

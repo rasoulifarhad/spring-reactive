@@ -14,6 +14,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.mongodb.core.ReactiveMongoOperations;
 
+import com.farhad.example.webfluxcrud.domain.Product;
 import com.farhad.example.webfluxcrud.domain.Show;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,9 +38,7 @@ public class DataImportConfiguration {
                 .thenMany(
                     Flux    
                         .fromIterable(getShows())
-                        .flatMap(s -> mongo.save(s))
-                )
-                
+                        .flatMap(s -> mongo.save(s)))
                 // .log()
                 // .subscribe(
                 //     null, 
@@ -51,7 +50,6 @@ public class DataImportConfiguration {
                 .subscribe(s -> log.info("saved: {}", s));
         };
     }
-
     private List<Show> getShows() {
         Properties yaml = loadShowsYaml();
         MapConfigurationPropertySource source = new MapConfigurationPropertySource(yaml);
@@ -63,7 +61,36 @@ public class DataImportConfiguration {
         properties.setResources(new ClassPathResource("shows.yml"));
         return properties.getObject();
     }  
-    
+
+    @Bean
+    @Order(400)
+    public CommandLineRunner initProduts(ReactiveMongoOperations mongo) {
+        return args -> {
+            mongo
+                .dropCollection(Product.class)
+                .then(mongo.createCollection(Product.class))
+                .thenMany(
+                    Flux
+                        .fromIterable(getProducts())
+                        .flatMap(p -> mongo.save(p)))
+                .log()
+                .thenMany(mongo.findAll(Product.class))
+                .subscribe(p -> log.info("Saved: {}", p) );
+        };
+    }
+
+
+    private List<Product> getProducts() {
+        Properties yaml = loadProductsYaml();
+        MapConfigurationPropertySource source = new MapConfigurationPropertySource(yaml);
+        return new Binder(source).bind("products", Bindable.listOf(Product.class)).get();
+    }
+
+    private Properties loadProductsYaml() {
+        YamlPropertiesFactoryBean properties = new YamlPropertiesFactoryBean();
+        properties.setResources(new ClassPathResource("products.yml"));
+        return properties.getObject();
+    }
     // /**
     //  * curl -s -XGET http://localhost:8080/shows | jq '.'
     //  * curl -s -XGET http://localhost:8080/shows/{id} | jq '.'
