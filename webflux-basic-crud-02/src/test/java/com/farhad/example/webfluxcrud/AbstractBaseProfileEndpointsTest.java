@@ -92,7 +92,46 @@ public class AbstractBaseProfileEndpointsTest {
             .uri("/profiles/" + profile.getId())
             .exchange()
             .expectStatus().isOk();
+    }
 
+    @Test
+    public void updateByIdTest() {
+        Profile profile = new Profile("1234", UUID.randomUUID().toString() + "@email.com");
 
+        Mockito
+            .when(this.repository.findById(profile.getId()))
+            .thenReturn(Mono.just(profile));
+        
+        Mockito
+            .when(this.repository.save(profile))
+            .thenReturn(Mono.just(profile));
+
+        client
+            .put()
+            .uri("/profiles/" + profile.getId())
+            .accept(MediaType.APPLICATION_JSON)
+            .body(Mono.just(profile), Profile.class)
+            .exchange()
+            .expectStatus().isOk();
+    }
+
+    @Test
+    public void getById() {
+        Profile profile = new Profile("1234", UUID.randomUUID().toString() + "@email.com");
+
+        Mockito
+            .when(this.repository.findById(profile.getId()))
+            .thenReturn(Mono.just(profile));
+
+        client
+            .get()
+            .uri("/profiles/" + profile.getId())
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isOk()
+            .expectHeader().contentType(MediaType.APPLICATION_JSON)
+            .expectBody()
+            .jsonPath("$.id").isEqualTo(profile.getId())
+            .jsonPath("$.email").isEqualTo(profile.getEmail());
     }
 }
