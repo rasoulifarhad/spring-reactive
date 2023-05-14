@@ -9,7 +9,6 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.farhad.example.webfluxcrud.domain.Profile;
-import com.farhad.example.webfluxcrud.repositories.ReactiveProfileRepository;
 
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
@@ -18,7 +17,6 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ProfileHandler {
 
-    private final ReactiveProfileRepository repository ;
     private final ProfileService profileService;
 
     public Mono<ServerResponse> byId(ServerRequest request) {

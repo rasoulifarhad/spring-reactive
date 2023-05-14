@@ -11,11 +11,9 @@ import com.farhad.example.webfluxcrud.repositories.ReactiveProfileRepository;
 import com.farhad.example.webfluxcrud.service.ProfileService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
-@Slf4j
 @Import(ProfileService.class)
 @DataMongoTest
 @RequiredArgsConstructor

@@ -8,11 +8,9 @@ import com.farhad.example.webfluxcrud.event.ProfileCreatedEvent;
 import com.farhad.example.webfluxcrud.repositories.ReactiveProfileRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Slf4j
 @Service 
 @RequiredArgsConstructor
 public class ProfileService {

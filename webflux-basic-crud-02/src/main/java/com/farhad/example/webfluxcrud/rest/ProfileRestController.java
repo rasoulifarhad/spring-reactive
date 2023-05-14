@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.farhad.example.webfluxcrud.domain.Profile;
 import com.farhad.example.webfluxcrud.service.ProfileService;
@@ -19,9 +20,11 @@ import com.farhad.example.webfluxcrud.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Mono;
 
-// @RestController
+
+@RestController
 @RequestMapping(value = "/profiles", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
+//@org.springframework.context.annotation.Profile("classic")
 public class ProfileRestController {
 
     private final ProfileService profileService;

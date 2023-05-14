@@ -1,9 +1,6 @@
 package com.farhad.example.webfluxcrud.web;
 
-import static org.springframework.web.reactive.function.server.RequestPredicates.DELETE;
 import static org.springframework.web.reactive.function.server.RequestPredicates.GET;
-import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
-import static org.springframework.web.reactive.function.server.RequestPredicates.PUT;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 import org.springframework.context.annotation.Bean;
@@ -14,7 +11,6 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import com.farhad.example.webfluxcrud.service.ProductHandler;
-import com.farhad.example.webfluxcrud.service.ProfileHandler;
 import com.farhad.example.webfluxcrud.service.ShowEventHandler;
 import com.farhad.example.webfluxcrud.service.ShowHandler;
 
@@ -38,14 +34,4 @@ public class WebConfig implements WebFluxConfigurer {
             .andRoute(GET("/products"), productHandler::all);
     }
 
-    @Bean
-    public RouterFunction<ServerResponse> routeProfile(ProfileHandler profileHandler) {
-        return
-            route(GET("/profiles/{id}"), profileHandler::byId)
-            .andRoute(DELETE("/profiles/{id}"), profileHandler::deleteById)
-            .andRoute(GET("/profiles"), profileHandler::all)
-            .andRoute(POST("/profiles"), profileHandler::create)
-            .andRoute(PUT("/profiles/{id}"), profileHandler::updateById)
-            ;
-    }
 }
