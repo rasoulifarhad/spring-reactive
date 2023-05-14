@@ -87,3 +87,23 @@ db.runCommand(
 ```sh
 docker stop mongodb && docker rm mongodb
 ```
+
+<!--
+
+Test slices
+
+Test slices are a feature in Spring Boot that allow the client to load the types in a Spring ApplicationContext that are adjacent to the thing under test.
+
+In this case, we’re interested in testing the data access logic in the service. We are not interested in testing the web functionality. We haven’t even written the web functionality yet, for a start! A test slice lets us tell Spring Boot to load nothing by default and then we can bring pieces back in iteratively.
+
+When Spring Boot starts up it runs a slew of auto-configuration classes. Classes that produce objects that Spring in turn manages for us. The objects are provided by default assuming certain conditions are met. These conditions can include all sorts of things, like the presence of certain types on the classpath, properties in Spring’s Environment, and more. When a Spring Boot application starts up, it is the sum of all the auto-configurations and user configuration given to it. It will be, for our application, database connectivity, object-record mapping (ORM), a webserver, and so much more.
+
+We only need the machinery related to MongoDB and our ProfileService, in isolation. We’ll use the @DataMongoTest annotation to tell Spring Boot to autoconfigure all the things that could be implied in our MongoDB logic, while ignoring things like the web server, runtime and web components.
+
+This results in focused, faster test code that has the benefit of being easier to reproduce. The @DataMongoTest annotation is what’s called a test slice in the Spring Boot world. It supports testing a slice of our application’s functionality in isolation. There are numerous other test slices and you can easily create your own, too.
+
+Test slices can also contribute new auto-configuration supporting tests, specifically. The @DataMongoTest does this. It can even run an embedded MongoDB instance using the Flapdoodle library!
+
+See ProfileServiceTest
+
+-->
