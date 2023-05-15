@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.farhad.example.webfluxcrud.dto.EmployeeDto;
+import com.farhad.example.webfluxcrud.mapper.EmployeeMapper;
 import com.farhad.example.webfluxcrud.repositories.EmployeeRepository;
 import com.farhad.example.webfluxcrud.service.EmployeeService;
 
@@ -56,5 +57,35 @@ public class EmployeeControllerIntegrationTests {
             .jsonPath("$.firstName").isEqualTo("Farhad")
             .jsonPath("$.lastName").isEqualTo("Rasouli")
             .jsonPath("$.email").isEqualTo("rasouli.farhad@gmail.com");
+    }
+
+    @Test
+    public void getEmployeeByIdTest() {
+        EmployeeDto employeeDto = EmployeeDto
+                                    .builder()
+                                        .firstName("Farhad")
+                                        .lastName("Rasouli")
+                                        .email("rasouli.farhad@gmail.com")
+                                    .build();
+        
+        EmployeeDto savedEmployee =  Mono
+                                        .just(employeeDto)
+                                        .map(EmployeeMapper::mapToEmployee)
+                                        .flatMap(e -> repository.save(e) )
+                                        .map(EmployeeMapper::mapToEmployeeDto)
+                                        .block();
+        client
+            .get()
+            .uri("api/employees/" + savedEmployee.getId() )
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isOk()
+            .expectHeader().contentType(MediaType.APPLICATION_JSON)
+            .expectBody()
+            .consumeWith(System.out::println)
+            .jsonPath("$.id").isEqualTo(savedEmployee.getId())
+            .jsonPath("$.firstName").isEqualTo(savedEmployee.getFirstName())
+            .jsonPath("$.lastName").isEqualTo(savedEmployee.getLastName())
+            .jsonPath("$.email").isEqualTo(savedEmployee.getEmail());
     }
 }
