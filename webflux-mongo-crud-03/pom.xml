@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.farhad.example</groupId>
-	<artifactId>webflux-basic-crud-03</artifactId>
+	<artifactId>webflux-mongo-crud-03</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>webflux-basic-crud-03</name>
+	<name>webflux-mongo-crud-03</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>
