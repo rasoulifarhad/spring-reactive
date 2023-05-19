@@ -1,0 +1,20 @@
+products:
+- name: "T Shirt"
+  description: "Spring Guru plain T Shirt"
+  price: 125
+  imageUrl: "tshirt1.png"
+
+- name: "T Shirt"
+  description: "Spring Guru plain T Shirt"
+  price: 115
+  imageUrl: "tshirt2.png"
+
+- name: "Mug"
+  description: "Spring Guru printed Mug"
+  price: 39
+  imageUrl: "mug1.png"
+
+- name: "Cap"
+  description: "Spring Guru printed Cap"
+  price: 66
+  imageUrl: "cap1.png"
