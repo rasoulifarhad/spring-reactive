@@ -17,6 +17,7 @@ import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.var;
 
 @Component
 @RequiredArgsConstructor
@@ -27,9 +28,8 @@ public class ChartController  {
     private final WebClientStockClient webClientStockClient ;
     @FXML
     public void initialize() {
-        PriceSubscriber priceSubscriber1 = new PriceSubscriber("SYMBOL1", webClientStockClient);
-        
-        PriceSubscriber priceSubscriber2 = new PriceSubscriber("SYMBOL2", webClientStockClient);
+        var priceSubscriber1 = new PriceSubscriber("SYMBOL1", webClientStockClient);
+        var priceSubscriber2 = new PriceSubscriber("SYMBOL2", webClientStockClient);
         
         ObservableList<Series<String,Double>> data = observableArrayList();
         data.add(priceSubscriber1.getSeries());
