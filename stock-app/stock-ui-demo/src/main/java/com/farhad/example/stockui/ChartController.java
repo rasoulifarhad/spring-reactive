@@ -6,8 +6,8 @@ import java.util.function.Consumer;
 
 import org.springframework.stereotype.Component;
 
+import com.farhad.example.stockclient.StockClient;
 import com.farhad.example.stockclient.StockPrice;
-import com.farhad.example.stockclient.WebClientStockClient;
 
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -25,11 +25,11 @@ public class ChartController  {
     
     @FXML
     public LineChart<String,Double> chart;
-    private final WebClientStockClient webClientStockClient ;
+    private final StockClient stockClient ;
     @FXML
     public void initialize() {
-        var priceSubscriber1 = new PriceSubscriber("SYMBOL1", webClientStockClient);
-        var priceSubscriber2 = new PriceSubscriber("SYMBOL2", webClientStockClient);
+        var priceSubscriber1 = new PriceSubscriber("SYMBOL1", stockClient);
+        var priceSubscriber2 = new PriceSubscriber("SYMBOL2", stockClient);
         
         ObservableList<Series<String,Double>> data = observableArrayList();
         data.add(priceSubscriber1.getSeries());
@@ -43,7 +43,7 @@ public class ChartController  {
         private Series<String,Double> series;
         private ObservableList<Data<String,Double>>  seriesData =  observableArrayList();
 
-        public PriceSubscriber(String symbol, WebClientStockClient stockClient) {
+        public PriceSubscriber(String symbol, StockClient stockClient) {
             series = new Series<>(symbol, seriesData);
             stockClient.pricesFor(symbol)
                        .subscribe(this);
