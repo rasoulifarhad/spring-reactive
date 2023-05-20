@@ -1,10 +1,8 @@
-package com.farhad.example.stockservice;
+package com.farhad.example.stockclient;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import com.farhad.example.stockservice.client.WebClientStockClient;
 
 import reactor.core.publisher.Flux;
 
@@ -19,7 +17,7 @@ public class WebClientStockClientIntegrationTest {
         WebClientStockClient webClientStockClient = new WebClientStockClient(webClient);
 
         //when 
-        Flux<StockPrice> prices = webClientStockClient.priceFor("DEMO");
+        Flux<StockPrice> prices = webClientStockClient.pricesFor("DEMO");
 
         //then
         Assertions.assertNotNull(prices);
@@ -32,7 +30,7 @@ public class WebClientStockClientIntegrationTest {
         WebClientStockClient webClientStockClient = new WebClientStockClient(webClient);
 
         //when 
-        Flux<StockPrice> prices = webClientStockClient.priceFor("DEMO");
+        Flux<StockPrice> prices = webClientStockClient.pricesFor("DEMO");
 
         //then
         Assertions.assertNotNull(prices);

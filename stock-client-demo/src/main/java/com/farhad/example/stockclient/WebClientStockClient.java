@@ -1,11 +1,9 @@
-package com.farhad.example.stockservice.client;
+package com.farhad.example.stockclient;
 
 import java.io.IOException;
 import java.time.Duration;
 
 import org.springframework.web.reactive.function.client.WebClient;
-
-import com.farhad.example.stockservice.StockPrice;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +12,11 @@ import reactor.util.retry.Retry;
 
 @Slf4j
 @RequiredArgsConstructor
-public class WebClientStockClient {
+public class WebClientStockClient  implements StockClient {
 
     private final WebClient webClient;
-    public Flux<StockPrice> priceFor(String symbol) {
+
+    public Flux<StockPrice> pricesFor(String symbol) {
         return webClient
                     .get()
                     .uri("http://localhost:8080/stocks/{symbol}", symbol)
