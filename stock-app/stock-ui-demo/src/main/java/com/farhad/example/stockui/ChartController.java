@@ -27,31 +27,26 @@ public class ChartController  {
     private final WebClientStockClient webClientStockClient ;
     @FXML
     public void initialize() {
-        String symbol1 = "SYMBOL1";
-        PriceSubscriber priceSubscriber1 = new PriceSubscriber(symbol1);
-        String symbol2 = "SYMBOL2";
-        PriceSubscriber priceSubscriber2 = new PriceSubscriber(symbol2);
+        PriceSubscriber priceSubscriber1 = new PriceSubscriber("SYMBOL1", webClientStockClient);
+        
+        PriceSubscriber priceSubscriber2 = new PriceSubscriber("SYMBOL2", webClientStockClient);
         
         ObservableList<Series<String,Double>> data = observableArrayList();
         data.add(priceSubscriber1.getSeries());
         data.add(priceSubscriber2.getSeries());
         chart.setData(data);
         
-        webClientStockClient
-                .pricesFor(symbol1)
-                .subscribe(priceSubscriber1);
-        webClientStockClient
-                .pricesFor(symbol2)
-                .subscribe(priceSubscriber2);
     }
 
-    private class PriceSubscriber implements Consumer<StockPrice> {
+    private static class PriceSubscriber implements Consumer<StockPrice> {
         @Getter
         private Series<String,Double> series;
         private ObservableList<Data<String,Double>>  seriesData =  observableArrayList();
 
-        public PriceSubscriber(String symbol) {
+        public PriceSubscriber(String symbol, WebClientStockClient stockClient) {
             series = new Series<>(symbol, seriesData);
+            stockClient.pricesFor(symbol)
+                       .subscribe(this);
         }
         @Override
         public void accept(StockPrice stockPrice) {
