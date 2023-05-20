@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"name": "stock-service-demo",
+			"path": "stock-service-demo"
+		},
+		{
+			"name": "stock-client-demo",
+			"path": "stock-client-demo"
+		},
+		{
+			"name": "stock-ui-demo",
+			"path": "stock-ui-demo"
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "automatic",
+		"java.dependency.packagePresentation": "flat"
+	}
+}
